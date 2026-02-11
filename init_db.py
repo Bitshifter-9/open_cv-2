@@ -1,4 +1,3 @@
-
 import os
 from sqlalchemy import create_engine, text
 
@@ -11,8 +10,6 @@ if not DATABASE_URL:
 engine = create_engine(DATABASE_URL)
 
 with engine.connect() as conn:
-    # Create table for storing face data (name and the flattened image vector)
-    # We use LargeBinary (BYTEA in postgres) to store the pickled numpy array of the face
     print("Creating 'registered_faces' table...")
     conn.execute(text("""
         CREATE TABLE IF NOT EXISTS registered_faces (
@@ -23,7 +20,6 @@ with engine.connect() as conn:
         );
     """))
     
-    # Ensure attendance table exists too (it might have been created by to_sql, but good to be sure)
     print("Ensuring 'attendance' table exists...")
     conn.execute(text("""
         CREATE TABLE IF NOT EXISTS attendance (
